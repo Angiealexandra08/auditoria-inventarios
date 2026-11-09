@@ -3,40 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auditoría de Inventarios</title>
+  <title>Sistema Profesional de Auditoría de Inventarios</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="topbar">
-    <h1>Auditoría de Inventarios</h1>
-    <p>Registra el conteo físico, detecta diferencias, anexa evidencia y genera el informe.</p>
+    <div class="header-content">
+      <h1>📊 Auditoría de Inventarios</h1>
+      <p>Módulo de Control Físico, Cruce de Diferencias y Generación de Informes Técnicos</p>
+    </div>
   </header>
 
   <main>
+    <!-- Tarjeta informativa vinculada a la investigación -->
+    <section class="card info-card">
+      <h2>💡 Sobre este Sistema de Auditoría</h2>
+      <p class="muted">
+        Esta herramienta digital forma parte del desarrollo práctico de investigación sobre control interno y verificación de existencias. 
+        Permite auditar bodegas mediante el registro de conteos físicos, detección automática de mermas o sobrantes (faltantes/sobrantes), 
+        incorporación de evidencias multimedia y emisión de informes listos para auditoría.
+      </p>
+    </section>
+
     <!-- 1. Crear / seleccionar auditoría -->
     <section class="card" id="seccion-auditorias">
-      <h2>1. Auditorías</h2>
+      <h2>1. Gestión de Auditorías</h2>
       <form id="form-auditoria" class="grid">
         <label>Nombre de la auditoría
-          <input type="text" id="aud-nombre" placeholder="Ej: Inventario de cierre 2026" required>
+          <input type="text" id="aud-nombre" placeholder="Ej: Inventario General de Cierre 2026" required>
         </label>
-        <label>Bodega / sucursal
-          <input type="text" id="aud-bodega" placeholder="Ej: Bodega central" required>
+        <label>Bodega / Sucursal
+          <input type="text" id="aud-bodega" placeholder="Ej: Bodega Central - Zona Norte" required>
         </label>
-        <label>Fecha
+        <label>Fecha de ejecución
           <input type="date" id="aud-fecha" required>
         </label>
-        <label>Auditor responsable
-          <input type="text" id="aud-responsable" placeholder="Tu nombre" required>
+        <label>Auditor Responsable
+          <input type="text" id="aud-responsable" placeholder="Tu nombre / Cargo" required>
         </label>
-        <button type="submit" class="btn primary">Crear auditoría</button>
+        <button type="submit" class="btn primary">Crear y Iniciar Auditoría</button>
       </form>
 
       <div class="row">
-        <label class="grow">Auditorías guardadas
+        <label class="grow">Seleccionar auditoría guardada
           <select id="lista-auditorias"></select>
         </label>
-        <button type="button" class="btn danger" id="btn-eliminar-auditoria">Eliminar</button>
+        <button type="button" class="btn danger" id="btn-eliminar-auditoria">Eliminar auditoría</button>
       </div>
       <div class="row">
         <button type="button" class="btn" id="btn-exportar">Exportar respaldo (JSON)</button>
@@ -47,23 +59,23 @@
 
     <!-- 2. Auditoría activa -->
     <section class="card" id="seccion-trabajo" hidden>
-      <h2>2. Conteo y hallazgos</h2>
+      <h2>2. Registro de Conteo y Hallazgos</h2>
       <p id="info-auditoria" class="muted"></p>
 
       <form id="form-producto" class="grid">
-        <label>Código
-          <input type="text" id="prod-codigo" placeholder="CEM-001" required>
+        <label>Código de Artículo
+          <input type="text" id="prod-codigo" placeholder="Ej: CEM-001" required>
         </label>
-        <label>Producto
-          <input type="text" id="prod-nombre" placeholder="Saco de cemento 42.5 kg" required>
+        <label>Descripción del Producto
+          <input type="text" id="prod-nombre" placeholder="Ej: Saco de cemento 42.5 kg" required>
         </label>
-        <label>Cantidad en sistema
+        <label>Cantidad en Sistema
           <input type="number" id="prod-sistema" min="0" step="1" required>
         </label>
-        <label>Cantidad contada
+        <label>Cantidad Contada (Física)
           <input type="number" id="prod-contado" min="0" step="1" required>
         </label>
-        <label>Costo unitario ($)
+        <label>Costo Unitario ($)
           <input type="number" id="prod-costo" min="0" step="0.01" value="0">
         </label>
         <button type="submit" class="btn primary">Agregar producto</button>
@@ -90,21 +102,24 @@
           <tbody></tbody>
         </table>
       </div>
-      <p id="sin-productos" class="muted">Todavía no hay productos registrados.</p>
+      <p id="sin-productos" class="muted">Todavía no hay productos registrados en esta auditoría.</p>
     </section>
 
     <!-- 3. Informe -->
     <section class="card" id="seccion-informe" hidden>
       <div class="row">
-        <h2 class="grow">3. Informe de auditoría</h2>
-        <button type="button" class="btn primary" id="btn-informe">Generar informe</button>
-        <button type="button" class="btn" id="btn-imprimir" hidden>Imprimir / Guardar PDF</button>
+        <h2 class="grow">3. Informe Final de Auditoría</h2>
+        <button type="button" class="btn primary" id="btn-informe">Generar informe ejecutivo</button>
+        <button type="button" class="btn" id="btn-imprimir" hidden>Imprimir / Guardar en PDF</button>
       </div>
       <div id="informe"></div>
     </section>
   </main>
 
-  <footer class="muted">Los datos se guardan en este navegador (localStorage). Usa «Exportar respaldo» para no perderlos.</footer>
+  <footer class="muted">
+    <p>Sistema de Auditoría de Inventarios — Desarrollado para investigación técnica y control operativo.</p>
+    <p>Los datos se almacenan de forma segura en tu navegador (localStorage).</p>
+  </footer>
 
   <script src="app.js"></script>
 </body>
