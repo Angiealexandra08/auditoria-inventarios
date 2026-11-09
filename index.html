@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auditoría de Inventarios</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Auditoría de Inventarios</h1>
+    <p>Registra el conteo físico, detecta diferencias, anexa evidencia y genera el informe.</p>
+  </header>
+
+  <main>
+    <!-- 1. Crear / seleccionar auditoría -->
+    <section class="card" id="seccion-auditorias">
+      <h2>1. Auditorías</h2>
+      <form id="form-auditoria" class="grid">
+        <label>Nombre de la auditoría
+          <input type="text" id="aud-nombre" placeholder="Ej: Inventario de cierre 2026" required>
+        </label>
+        <label>Bodega / sucursal
+          <input type="text" id="aud-bodega" placeholder="Ej: Bodega central" required>
+        </label>
+        <label>Fecha
+          <input type="date" id="aud-fecha" required>
+        </label>
+        <label>Auditor responsable
+          <input type="text" id="aud-responsable" placeholder="Tu nombre" required>
+        </label>
+        <button type="submit" class="btn primary">Crear auditoría</button>
+      </form>
+
+      <div class="row">
+        <label class="grow">Auditorías guardadas
+          <select id="lista-auditorias"></select>
+        </label>
+        <button type="button" class="btn danger" id="btn-eliminar-auditoria">Eliminar</button>
+      </div>
+      <div class="row">
+        <button type="button" class="btn" id="btn-exportar">Exportar respaldo (JSON)</button>
+        <label class="btn" for="archivo-importar">Importar respaldo</label>
+        <input type="file" id="archivo-importar" accept="application/json" hidden>
+      </div>
+    </section>
+
+    <!-- 2. Auditoría activa -->
+    <section class="card" id="seccion-trabajo" hidden>
+      <h2>2. Conteo y hallazgos</h2>
+      <p id="info-auditoria" class="muted"></p>
+
+      <form id="form-producto" class="grid">
+        <label>Código
+          <input type="text" id="prod-codigo" placeholder="CEM-001" required>
+        </label>
+        <label>Producto
+          <input type="text" id="prod-nombre" placeholder="Saco de cemento 42.5 kg" required>
+        </label>
+        <label>Cantidad en sistema
+          <input type="number" id="prod-sistema" min="0" step="1" required>
+        </label>
+        <label>Cantidad contada
+          <input type="number" id="prod-contado" min="0" step="1" required>
+        </label>
+        <label>Costo unitario ($)
+          <input type="number" id="prod-costo" min="0" step="0.01" value="0">
+        </label>
+        <button type="submit" class="btn primary">Agregar producto</button>
+      </form>
+
+      <div class="resumen" id="resumen"></div>
+
+      <div class="tabla-wrap">
+        <table id="tabla-productos">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Producto</th>
+              <th>Sistema</th>
+              <th>Contado</th>
+              <th>Diferencia</th>
+              <th>Valor dif. ($)</th>
+              <th>Estado</th>
+              <th>Observación</th>
+              <th>Anexos</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p id="sin-productos" class="muted">Todavía no hay productos registrados.</p>
+    </section>
+
+    <!-- 3. Informe -->
+    <section class="card" id="seccion-informe" hidden>
+      <div class="row">
+        <h2 class="grow">3. Informe de auditoría</h2>
+        <button type="button" class="btn primary" id="btn-informe">Generar informe</button>
+        <button type="button" class="btn" id="btn-imprimir" hidden>Imprimir / Guardar PDF</button>
+      </div>
+      <div id="informe"></div>
+    </section>
+  </main>
+
+  <footer class="muted">Los datos se guardan en este navegador (localStorage). Usa «Exportar respaldo» para no perderlos.</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

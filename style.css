@@ -1,0 +1,119 @@
+:root {
+  --azul: #1f4e79;
+  --azul-claro: #e8f0f8;
+  --gris: #5f6b76;
+  --borde: #d5dbe1;
+  --rojo: #b3261e;
+  --verde: #1e7b3a;
+  --naranja: #b26a00;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  background: #f4f6f8;
+  color: #1c2430;
+  line-height: 1.45;
+}
+
+.topbar {
+  background: var(--azul);
+  color: #fff;
+  padding: 20px 24px;
+}
+.topbar h1 { margin: 0 0 4px; font-size: 1.6rem; }
+.topbar p { margin: 0; opacity: .85; }
+
+main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+.card {
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+.card h2 { margin: 0 0 12px; font-size: 1.15rem; color: var(--azul); }
+
+.muted { color: var(--gris); font-size: .9rem; }
+footer { text-align: center; padding: 16px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 14px;
+}
+
+label { display: flex; flex-direction: column; font-size: .85rem; font-weight: 600; gap: 4px; }
+
+input[type="text"], input[type="number"], input[type="date"], select, textarea {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  background: #fff;
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--azul); outline-offset: 0; }
+
+.row { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; margin-top: 10px; }
+.grow { flex: 1; }
+
+.btn {
+  display: inline-block;
+  font: inherit;
+  font-weight: 600;
+  padding: 9px 14px;
+  border: 1px solid var(--azul);
+  background: #fff;
+  color: var(--azul);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn:hover { background: var(--azul-claro); }
+.btn.primary { background: var(--azul); color: #fff; }
+.btn.primary:hover { background: #17395a; }
+.btn.danger { border-color: var(--rojo); color: var(--rojo); }
+.btn.danger:hover { background: #fdecea; }
+.btn.small { padding: 4px 8px; font-size: .8rem; }
+
+/* Resumen */
+.resumen { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 6px 0 14px; }
+.kpi { background: var(--azul-claro); border-radius: 8px; padding: 10px 12px; }
+.kpi span { display: block; font-size: .78rem; color: var(--gris); }
+.kpi strong { font-size: 1.25rem; color: var(--azul); }
+
+/* Tabla */
+.tabla-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+th, td { border-bottom: 1px solid var(--borde); padding: 8px 6px; text-align: left; vertical-align: top; }
+th { background: #f0f3f6; font-size: .8rem; text-transform: uppercase; letter-spacing: .03em; }
+td.num, th.num { text-align: right; }
+
+.estado { font-weight: 700; padding: 2px 8px; border-radius: 12px; font-size: .78rem; white-space: nowrap; }
+.estado.ok { background: #e3f4e8; color: var(--verde); }
+.estado.falta { background: #fdecea; color: var(--rojo); }
+.estado.sobra { background: #fff2dc; color: var(--naranja); }
+
+td textarea { width: 100%; min-width: 150px; min-height: 52px; resize: vertical; font-size: .85rem; }
+
+.anexos-lista { list-style: none; margin: 6px 0 0; padding: 0; font-size: .8rem; }
+.anexos-lista li { display: flex; gap: 6px; align-items: center; margin-bottom: 3px; }
+.anexos-lista a { color: var(--azul); word-break: break-all; }
+.anexos-lista button { border: none; background: none; color: var(--rojo); cursor: pointer; font-size: 1rem; }
+
+/* Informe */
+#informe h3 { color: var(--azul); margin-bottom: 4px; }
+#informe table { margin-bottom: 14px; }
+.evidencia img { max-width: 220px; max-height: 180px; border: 1px solid var(--borde); border-radius: 4px; margin: 4px 6px 4px 0; }
+.evidencia-bloque { margin-bottom: 14px; padding: 10px; border: 1px solid var(--borde); border-radius: 8px; page-break-inside: avoid; }
+
+@media print {
+  body { background: #fff; }
+  .topbar, footer, #seccion-auditorias, #seccion-trabajo, #btn-informe, #btn-imprimir { display: none !important; }
+  .card { border: none; padding: 0; }
+  main { max-width: none; padding: 0; }
+}
