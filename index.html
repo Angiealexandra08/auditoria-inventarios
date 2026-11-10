@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Herramienta de Auditoría de Inventarios</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="topbar no-print">
+    <div class="wrap topbar-in">
+      <div>
+        <h1>Auditoría de Inventarios</h1>
+        <p class="sub">Auditar · Anexar evidencia · Informe</p>
+      </div>
+      <nav class="tabs" role="tablist">
+        <button class="tab active" data-view="auditoria" role="tab">Auditoría</button>
+        <button class="tab" data-view="informe" role="tab">Informe</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- Barra de auditorías -->
+    <section class="card no-print" id="barra">
+      <div class="row">
+        <label class="grow">Auditoría activa
+          <select id="selAuditoria"></select>
+        </label>
+        <div class="btns">
+          <button class="btn primary" id="btnNueva">+ Nueva auditoría</button>
+          <button class="btn danger" id="btnEliminar">Eliminar</button>
+        </div>
+      </div>
+      <div class="btns top-gap">
+        <button class="btn" id="btnEjemplo">Cargar caso de ejemplo</button>
+        <button class="btn" id="btnExportar">Exportar respaldo (JSON)</button>
+        <button class="btn" id="btnImportar">Importar respaldo</button>
+        <input type="file" id="fileImportar" accept=".json,application/json" hidden>
+      </div>
+    </section>
+
+    <!-- VISTA AUDITORÍA -->
+    <div id="view-auditoria" class="view">
+
+      <div id="vacio" class="card empty" hidden>
+        <h2>No hay auditorías todavía</h2>
+        <p>Crea una nueva auditoría o carga el caso de ejemplo (Ferretería «El Constructor») para ver cómo funciona.</p>
+      </div>
+
+      <div id="contenido" hidden>
+        <section class="card">
+          <h2>1. Datos de la auditoría</h2>
+          <div class="grid4">
+            <label>Nombre de la auditoría<input id="aNombre" type="text" placeholder="Ej. Auditoría de cierre 2026"></label>
+            <label>Bodega<input id="aBodega" type="text" placeholder="Ej. Bodega central"></label>
+            <label>Fecha<input id="aFecha" type="date"></label>
+            <label>Auditor responsable<input id="aAuditor" type="text" placeholder="Nombre del auditor"></label>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>2. Registrar producto</h2>
+          <form id="formProducto" class="grid6" autocomplete="off">
+            <label>Código<input id="pCodigo" type="text" placeholder="CEM-001" required></label>
+            <label class="span2">Producto<input id="pNombre" type="text" placeholder="Saco de cemento 42.5 kg" required></label>
+            <label>Costo unitario ($)<input id="pCosto" type="number" step="0.01" min="0" required></label>
+            <label>Cant. en sistema<input id="pSistema" type="number" step="1" min="0" required></label>
+            <label>Cant. contada<input id="pContado" type="number" step="1" min="0" required></label>
+            <div class="form-actions"><button class="btn primary" type="submit" id="btnAgregar">Agregar producto</button></div>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>3. Conteo y conciliación</h2>
+          <div class="stats" id="stats"></div>
+          <div class="table-wrap">
+            <table id="tabla">
+              <thead>
+                <tr>
+                  <th>Código</th><th>Producto</th><th class="num">Costo</th>
+                  <th class="num">Sistema</th><th class="num">Contado</th>
+                  <th class="num">Dif.</th><th class="num">Valor dif. ($)</th>
+                  <th>Estado</th><th>Evidencia</th><th></th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+          <p class="hint">Diferencia = contado − sistema. Negativo = faltante, positivo = sobrante. Valor = diferencia × costo unitario. Puedes editar las cantidades directamente en la tabla.</p>
+        </section>
+      </div>
+    </div>
+
+    <!-- VISTA INFORME -->
+    <div id="view-informe" class="view" hidden>
+      <div class="btns no-print bar-informe">
+        <button class="btn primary" id="btnImprimir">Imprimir / Guardar como PDF</button>
+      </div>
+      <article id="reporte" class="reporte"></article>
+    </div>
+
+  </main>
+
+  <!-- Diálogo de evidencia -->
+  <dialog id="dlgEvidencia">
+    <form method="dialog" class="dlg-head">
+      <h3 id="dlgTitulo">Evidencia</h3>
+      <button class="btn small" value="cerrar">Cerrar</button>
+    </form>
+    <div class="dlg-body">
+      <label>Observación / hallazgo<textarea id="eObs" rows="2" placeholder="Describe lo encontrado"></textarea></label>
+      <label>Causa probable<textarea id="eCausa" rows="2" placeholder="Ej. Despachos sin registrar en el sistema"></textarea></label>
+      <label>Recomendación<textarea id="eReco" rows="2" placeholder="Ej. Exigir nota de remisión en cada salida"></textarea></label>
+
+      <div class="drop">
+        <label class="btn" for="eArchivos">+ Adjuntar fotos o documentos</label>
+        <input type="file" id="eArchivos" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" hidden>
+        <span class="hint">Imágenes (se comprimen automáticamente), PDF, Word y Excel (máx. 1.5 MB c/u).</span>
+      </div>
+      <div id="listaAnexos" class="anexos"></div>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
